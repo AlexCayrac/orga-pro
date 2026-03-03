@@ -1,0 +1,57 @@
+/* LoadingOverlay.css - Style pour le loader bloquant */
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: auto; /* Bloque les interactions */
+  user-select: none;
+  /* 🔑 Enlever backdrop-filter - cause du lag et du scintillement */
+  will-change: opacity; /* Optimiser la performance de la transition */
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  /* 🔑 Animation OFF au démarrage - évite le scintillement */
+  animation: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-message {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+  font-weight: 500;
+}

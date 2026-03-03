@@ -1,0 +1,803 @@
+.contacts-panel {
+  width: 100%;
+  height: 100%;
+  background-color: #f8f9fa;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-resizable-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.folders-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.folders-section-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.contacts-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+  background-color: white;
+  flex-shrink: 0;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.contact-count {
+  background-color: #0A4866;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.search-box {
+  padding: 12px;
+  border-bottom: 1px solid #e9ecef;
+  background-color: white;
+  flex-shrink: 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* Badge "lecture seule" */
+.read-only-badge {
+  display: inline-block;
+  background-color: #6c757d;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 8px;
+  opacity: 0.8;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #0A4866;
+}
+
+.folder-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  cursor: grab;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  user-select: none;
+}
+
+.folder-header:hover {
+  background-color: #f8fafc;
+  border-color: #0A4866;
+  box-shadow: 0 2px 6px rgba(10, 72, 102, 0.1);
+}
+
+.folder-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  pointer-events: auto;
+  z-index: 10;
+  user-select: none;
+}
+
+.folder-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.folder-name {
+  flex: 1;
+  font-weight: 500;
+  font-size: 12px;
+  color: #333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.folder-count {
+  font-size: 12px;
+  color: #999;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.contact-icon {
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.contact-name {
+  flex: 1;
+  font-weight: 500;
+  color: #333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 7px;
+  line-height: 1.1;
+  padding: 1px 0;
+}
+
+.contact-position {
+  font-size: 11px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.new-folder-box {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.new-folder-box input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.new-folder-box input:disabled {
+  background-color: #f0f0f0;
+  color: #999;
+}
+
+/* Style pour le nouvel input de dossier */
+.new-folder-input {
+  display: flex;
+  gap: 6px;
+  padding: 4px 6px;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.new-folder-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.new-folder-input input:focus {
+  outline: none;
+  border-color: #0A4866;
+}
+
+.new-folder-input .btn {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.folders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  min-height: 0;
+  scrollbar-width: auto;
+  scrollbar-color: #999 #f0f0f0;
+}
+
+.folder-item {
+  flex-shrink: 0;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  padding: 1px;
+}
+
+.folder-item.drag-over {
+  background-color: #dbeafe;
+  border: 2px dashed #0A4866;
+  padding: 0;
+  box-shadow: inset 0 0 0 1px #0A4866;
+}
+
+.folder-level-0 {
+  margin-left: 0;
+}
+
+.folder-level-1 {
+  margin-left: 16px;
+}
+
+.folder-level-2 {
+  margin-left: 32px;
+}
+
+.folder-level-3 {
+  margin-left: 48px;
+}
+
+.folder-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  background-color: white;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  cursor: grab;
+  transition: all 0.15s ease;
+  position: relative;
+  min-height: 40px;
+}
+
+.folder-toggle.drag-over {
+  background-color: #dbeafe;
+  border-color: #0A4866;
+  box-shadow: inset 0 0 0 2px #0A4866, 0 4px 12px rgba(10, 72, 102, 0.3);
+  transform: scale(1.02);
+}
+
+.folder-toggle:hover {
+  background-color: #f8fafc;
+  border-color: #0A4866;
+  box-shadow: 0 2px 8px rgba(10, 72, 102, 0.1);
+}
+
+.folder-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 4px 0;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  transition: color 0.15s ease;
+}
+
+.folder-btn:hover {
+  color: #0A4866;
+}
+
+.folder-count {
+  font-size: 12px;
+  color: #999;
+  font-weight: 500;
+}
+
+.btn-add-subfolder {
+  padding: 4px 6px;
+  background-color: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.btn-add-subfolder:hover {
+  background-color: #f0f0f0;
+  color: #0A4866;
+}
+
+.new-subfolder-box {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 8px 0;
+  padding: 8px;
+  background-color: #f9fafb;
+  border-radius: 4px;
+}
+
+.new-subfolder-box input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.folder-contents {
+  margin-top: 2px;
+  padding: 4px 6px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #0A4866;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.folder-contacts {
+  padding: 4px 8px 8px;
+  background-color: #f9f9f9;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+
+.contact-item-mini {
+  padding: 6px 8px;
+  font-size: 12px;
+  color: #555;
+  background-color: white;
+  border-radius: 2px;
+  margin-bottom: 2px;
+  border-left: 2px solid #0A4866;
+  cursor: grab;
+}
+
+.contact-item-mini:hover {
+  background-color: #f0f0f0;
+}
+
+.empty-folder {
+  padding: 8px;
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
+.contacts-section {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  flex-shrink: 0;
+  margin-bottom: 1px;
+}
+
+.section-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.section-toggle:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  text-transform: uppercase;
+}
+
+.contacts-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-item {
+  padding: 3px 4px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  cursor: grab;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.contact-item:active {
+  cursor: grabbing;
+  opacity: 0.6;
+  transform: scale(0.98);
+}
+
+.contact-item:hover {
+  background-color: #f8fafc;
+  border-color: #0A4866;
+  box-shadow: 0 4px 12px rgba(10, 72, 102, 0.15);
+  transform: translateY(-2px);
+}
+
+
+
+.contact-item.dragging {
+  opacity: 0.5;
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.contact-item.in-orgchart {
+  background-color: #f0f8ff;
+  border-color: #87ceeb;
+}
+
+.contact-item.in-orgchart:hover {
+  background-color: #e0f2ff;
+  border-color: #0A4866;
+}
+
+.orgchart-badge {
+  font-size: 14px;
+  margin: 0 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.contact-item:hover .orgchart-badge {
+  opacity: 1;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-name {
+  font-size: 8px;
+  font-weight: 600;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.1;
+  padding: 1px 0;
+}
+
+.contact-position {
+  font-size: 11px;
+  color: #999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.contact-badge {
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.empty-state {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-small {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.btn-small:hover {
+  opacity: 0.8;
+}
+
+.folders-section,
+.contacts-section {
+  padding: 12px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.folders-section {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.section-header h3 {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.folder-header h3 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.new-folder-box {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.input-text {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.btn-small {
+  padding: 6px 8px;
+  background-color: #0A4866;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.folder-item {
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.folder-toggle {
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.folder-toggle:hover {
+  background-color: #f0f0f0;
+}
+
+.folder-count {
+  margin-left: 4px;
+  color: #999;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.folder-contacts {
+  padding: 4px 12px 8px;
+  background-color: #f9f9f9;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.contact-item-mini {
+  padding: 4px 0;
+  font-size: 11px;
+  color: #666;
+  border-bottom: 1px solid #eee;
+}
+
+.contact-item-mini:last-child {
+  border-bottom: none;
+}
+
+.empty-folder {
+  padding: 8px 0;
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-name {
+  font-size: 8px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.1;
+  padding: 1px 0;
+}
+
+.contact-position {
+  font-size: 11px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-badge {
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.contact-item:hover .contact-badge {
+  opacity: 1;
+}
+
+.empty-state {
+  padding: 24px 12px;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
+
+/* Scrollbar personnalisée */
+.contacts-list::-webkit-scrollbar,
+.folders-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contacts-list::-webkit-scrollbar-track,
+.folders-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contacts-list::-webkit-scrollbar-thumb,
+.folders-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.contacts-list::-webkit-scrollbar-thumb:hover,
+.folders-list::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+.input-text {
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+}
+
+.input-text:focus {
+  outline: none;
+  border-color: #0A4866;
+}
+
+/* Boutons d'action pour les dossiers (renommer, supprimer) */
+.folder-action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  margin-left: 4px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  opacity: 0;
+}
+
+.folder-header:hover .folder-action-btn {
+  opacity: 1;
+}
+
+.folder-action-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.1);
+}
+
+.folder-action-btn.rename-btn:hover {
+  background: #e8f4ff;
+  color: #0969da;
+}
+
+.folder-action-btn.delete-btn:hover {
+  background: #fee0e0;
+  color: #d1242f;
+}
+
+/* Input de renommage */
+.rename-input {
+  padding: 4px 6px;
+  border: 2px solid #0969da;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: inherit;
+  background: white;
+  color: #333;
+  flex: 1;
+  min-width: 100px;
+}
+
+.rename-input:focus {
+  outline: none;
+  border-color: #0860ca;
+  box-shadow: 0 0 4px rgba(9, 105, 218, 0.3);
+}
