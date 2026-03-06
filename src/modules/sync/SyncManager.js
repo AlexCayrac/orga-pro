@@ -68,15 +68,10 @@ class SyncManager {
 
       // 2. Vérifier si le fichier a changé
       if (!force && this.lastKnownHash === excelHash) {
-        logger.info('[SyncManager] No changes detected (hash unchanged)');
-        logger.info('[SyncManager] Hash details', { lastKnownHash: this.lastKnownHash, excelHash });
-        return {
-          differences: [],
-          excelHash,
-          lastKnownHash: this.lastKnownHash,
-          hasChanges: false,
-          message: 'Aucune modification détectée dans le fichier Excel',
-        };
+        // NOTE: Excel file hash unchanged, but internal contacts may have changed
+        // pour garantir que le badge UI reflète toujours l'état réel, nous continuons
+        // la comparaison même si le hash est identique (coût CPU acceptable pour UI correctness).
+        logger.info('[SyncManager] Excel hash unchanged — proceeding with comparison to detect internal changes');
       }
 
       if (force) {
@@ -110,12 +105,33 @@ class SyncManager {
         timestamp: new Date().toISOString(),
       };
 
-      const summary = DifferenceEngine.createSummary(differences);
+      const summary = DifferenceEngine.createSummary(differences) || {};
+
+      // Ensure consistent shape for the UI: totalDifferences and breakdown arrays
+      const totalDifferences = summary.total || summary.totalDifferences || differences.length;
+      const additions = summary.additions || (differences.filter(d => d.type === 'ADD') || []).map(d => d);
+      const updates = summary.updates || (differences.filter(d => d.type === 'UPDATE') || []).map(d => d);
+      const removals = summary.removals || (differences.filter(d => d.type === 'REMOVE') || []).map(d => d);
+
+      // Sauvegarder le hash après comparaison réussie
+      this.lastKnownHash = excelHash;
+      this.lastComparisonResult = {
+        differences,
+        excelContacts,
+        excelHash,
+        historyId: historyEntry.id,
+        timestamp: new Date().toISOString(),
+      };
 
       return {
         ...summary,
+        totalDifferences,
+        additions,
+        updates,
+        removals,
         differences,
         excelHash,
+        excelCount: Array.isArray(excelContacts) ? excelContacts.length : 0,
         historyId: historyEntry.id,
         hasChanges: true,
       };

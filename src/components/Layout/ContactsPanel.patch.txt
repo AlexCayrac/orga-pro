@@ -1,0 +1,1 @@
+Patch note: add filteredContacts useMemo and render search results when searchTerm is non-empty.

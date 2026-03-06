@@ -112,6 +112,10 @@ function App() {
   // 🔑 REF SYNCHRONE: Bloque la persistance pendant et après l'import (évite race condition UI)
   const importInProgressRef = useRef(false);
 
+  // 🔑 REF: Track if startup auto-check has been executed (prevent multiple runs)
+  const startupCheckExecutedRef = useRef(false);
+  const [syncReady, setSyncReady] = useState(false);
+
   // 🎨 REF pour le canvas - pour capturer le contenu à l'export
   const orgChartCanvasRef = useRef(null);
 
@@ -161,6 +165,8 @@ function App() {
       try {
         console.log('[App] Initializing SyncManager');
         await SyncManager.initialize();
+        // Mark that SyncManager is ready so startup checks can run safely
+        setSyncReady(true);
         
         // Charger l'état initial du UIUpdateNotifier
         const initialUpdates = UIUpdateNotifier.getPendingUpdates();
@@ -625,7 +631,7 @@ function App() {
    * Détecte les changements dans le fichier Excel Organigramme_Entreprise.xlsx
    * et les affiche dans un dialog
    */
-  const handleCheckExcelUpdates = async (silentMode = false, forceFlag = false) => {
+  const handleCheckExcelUpdates = React.useCallback(async (silentMode = false, forceFlag = false) => {
     try {
       console.log('[App] 🔍 Check Excel Updates with SyncManager');
       
@@ -634,7 +640,8 @@ function App() {
       
       console.log('[App] Sync result:', {
         hasChanges: syncResult.hasChanges,
-        total: syncResult.totalDifferences,
+        total: syncResult.totalDifferences || syncResult.total || syncResult.totalDifferences,
+        excelCount: syncResult.excelCount,
         adds: syncResult.additions,
         updates: syncResult.updates,
         removes: syncResult.removals,
@@ -643,9 +650,16 @@ function App() {
       // Si mode silencieux ou pas de différences, mettre à jour juste le badge et quitter
       if (silentMode || !syncResult.hasChanges) {
         console.log('[App] Silent mode or no changes - badge updated');
-        if (syncResult.hasChanges) {
-          setDifferencesCount(syncResult.totalDifferences);
-        } else if (!silentMode) {
+        // IMPORTANT: Always update the badge in silent mode, even if differences count is 0
+        const total = syncResult.total || syncResult.totalDifferences || (
+          (Array.isArray(syncResult.additions) ? syncResult.additions.length : 0) +
+          (Array.isArray(syncResult.updates) ? syncResult.updates.length : 0) +
+          (Array.isArray(syncResult.removals) ? syncResult.removals.length : 0) +
+          (Array.isArray(syncResult.differences) ? syncResult.differences.length : 0)
+        );
+        setDifferencesCount(Number(total || 0));
+        
+        if (!syncResult.hasChanges && !silentMode) {
           // Mode manuel et aucune différence: afficher un dump de debug
           try {
             console.log('[App] No differences detected — dumping sample of Excel vs internal contacts for debug');
@@ -705,10 +719,10 @@ function App() {
         alert('❌ Erreur lors de la synchronisation: ' + error.message);
       }
     }
-  };
+  }, [contacts, setDifferencesCount, setDetectedChanges, setShowDifferencesDialog]);
 
   // Auto-vérification des changements à chaque import d'Excel ou modification des contacts
-  // NOTE: On dépend de excelPath et hasSetInitialContacts pour avoid boucles infinies
+  // NOTE: On dépend de excelPath et handleCheckExcelUpdates pour avoir la bonne closure
   React.useEffect(() => {
     console.log('[App] 🚀 useEffect auto-check: contacts.length =', contacts.length, ', excelPath =', excelPath);
     
@@ -720,29 +734,18 @@ function App() {
       
       return () => clearTimeout(debounceTimer);
     }
-  }, [excelPath]); // Dépend SEULEMENT de excelPath pour éviter les appels inutiles
+  }, [excelPath, handleCheckExcelUpdates]);
 
   // Auto-check unique au démarrage: lance un check silencieux une seule fois
+  // S'exécute dès que excelPath et contacts sont disponibles, mais seulement UNE FOIS
   React.useEffect(() => {
-    console.log('[App] Startup auto-check');
-
-    const runSilentCheck = () => {
-      try {
-        if (excelPath && contacts.length > 0) {
-          console.log('[App] Running auto-check');
-          // Run a silent but forced check at startup to detect changes regardless of stored hash
-          handleCheckExcelUpdates(true, true);
-        }
-      } catch (err) {
-        console.error('[App] Auto-check error');
-      }
-    };
-
-    // Exécuter une seule fois au montage
-    runSilentCheck();
-
-    // Pas d'intervalle — check unique au démarrage
-  }, []);
+    if (syncReady && excelPath && contacts.length > 0 && !startupCheckExecutedRef.current) {
+      console.log('[App] 🚀 Running startup auto-check (first time)');
+      startupCheckExecutedRef.current = true;
+      // Run a silent but forced check at startup to detect changes regardless of stored hash
+      handleCheckExcelUpdates(true, true);
+    }
+  }, [syncReady, excelPath, contacts.length, handleCheckExcelUpdates]);
 
   // Écouter les différences appliquées depuis la fenêtre indépendante (IPC)
   React.useEffect(() => {
@@ -963,11 +966,20 @@ function App() {
    * Ferme le dialog des différences sans appliquer
    */
   const handleCloseDifferencesDialog = () => {
-    SyncManager.cancelSync();
+    // Ne PAS annuler le sync ni effacer les différences:
+    // fermer la fenêtre doit simplement cacher le dialog et
+    // laisser le badge refléter le nombre de différences non traitées.
     setShowDifferencesDialog(false);
     setDetectedChanges(null);
-    setPendingDifferences([]);
-    setDifferencesCount(0);
+    // Rafraîchir le compteur depuis le notifier (au cas où il a changé)
+    try {
+      const updates = UIUpdateNotifier.getPendingUpdates();
+      setPendingDifferences(updates.pendingDifferences || []);
+      setDifferencesCount(updates.counts ? updates.counts.total : (updates.pendingDifferences || []).length);
+    } catch (e) {
+      // Fallback conservative: ne pas toucher au badge si erreur
+      console.error('[App] Error refreshing pending updates on close:', e);
+    }
   };
 
   /**

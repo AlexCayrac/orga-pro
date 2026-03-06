@@ -1,0 +1,187 @@
+:root {
+  --primary: #0A4866;
+  --primary-dark: #063349;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --border-radius: 6px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Source Sans Pro';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--gray-50);
+  color: var(--gray-900);
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.topbar {
+  flex-shrink: 0;
+}
+
+.app-body {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+  gap: 0;
+  min-height: 0;
+  width: 100%;
+}
+
+/* GAUCHE - Dossiers (auto-générés, lecture seule) */
+.contacts-panel {
+  flex-shrink: 0;
+  width: 280px;
+  background-color: var(--gray-50);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--gray-200);
+  order: 1;
+  min-width: 0;
+  /* DEBUG: Pour vérifier l'ordre */
+  /* outline: 3px solid red; */
+}
+
+/* MILIEU - Canvas Organigramme */
+.orgchart-canvas {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: white;
+  min-width: 0;
+  order: 2;
+  /* DEBUG: Pour vérifier l'ordre */
+  /* outline: 3px solid green; */
+}
+
+/* DROITE - Liste Organigrammes */
+.orgcharts-list-panel {
+  flex-shrink: 0;
+  width: 280px;
+  background-color: var(--gray-50);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--gray-200);
+  order: 3;
+  min-width: 0;
+  /* DEBUG: Pour vérifier l'ordre */
+  /* outline: 3px solid blue; */
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: var(--gray-200);
+  color: var(--gray-900);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--gray-300);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+input[type="text"],
+textarea,
+select {
+  padding: 8px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--border-radius);
+  background-color: white;
+  color: var(--gray-900);
+  font-family: inherit;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.empty-state {
+  color: var(--gray-400);
+  font-size: 14px;
+}
+

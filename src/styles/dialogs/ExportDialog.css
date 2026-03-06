@@ -1,0 +1,120 @@
+.export-dialog {
+  max-width: 500px;
+}
+
+.export-dialog .form-group {
+  margin-bottom: 20px;
+}
+
+.export-dialog label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.export-dialog .form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+}
+
+.export-dialog .form-input:hover {
+  border-color: #0A4866;
+}
+
+.export-dialog .form-input:focus {
+  outline: none;
+  border-color: #0A4866;
+  box-shadow: 0 0 0 3px rgba(10, 72, 102, 0.1);
+}
+
+.export-dialog .form-help {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.export-dialog .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.export-dialog .radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-weight: 400;
+  cursor: pointer;
+  user-select: none;
+}
+
+.export-dialog .radio-group input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #0A4866;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.dialog-footer .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dialog-footer .btn-primary {
+  background-color: #0A4866;
+  color: white;
+}
+
+.dialog-footer .btn-primary:hover:not(:disabled) {
+  background-color: #073554;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(10, 72, 102, 0.3);
+}
+
+.dialog-footer .btn-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.dialog-footer .btn-secondary:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.dialog-footer .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  padding: 12px;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  color: #c33;
+  margin-bottom: 20px;
+  font-size: 14px;
+}

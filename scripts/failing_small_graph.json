@@ -1,0 +1,70 @@
+{
+  "persons": [
+    {
+      "id": "p1",
+      "name": "Person p1"
+    },
+    {
+      "id": "p2",
+      "name": "Person p2"
+    },
+    {
+      "id": "p3",
+      "name": "Person p3"
+    },
+    {
+      "id": "p4",
+      "name": "Person p4"
+    },
+    {
+      "id": "p5",
+      "name": "Person p5"
+    },
+    {
+      "id": "p6",
+      "name": "Person p6"
+    },
+    {
+      "id": "p7",
+      "name": "Person p7"
+    },
+    {
+      "id": "p8",
+      "name": "Person p8"
+    },
+    {
+      "id": "p9",
+      "name": "Person p9"
+    },
+    {
+      "id": "p10",
+      "name": "Person p10"
+    }
+  ],
+  "unions": [
+    {
+      "id": "u1",
+      "partnerIds": [
+        "p1"
+      ],
+      "childIds": [
+        "p6",
+        "p9",
+        "p10"
+      ]
+    },
+    {
+      "id": "u2",
+      "partnerIds": [
+        "p2",
+        "p4"
+      ],
+      "childIds": [
+        "p7",
+        "p8"
+      ]
+    }
+  ],
+  "before": 0,
+  "after": 4
+}
