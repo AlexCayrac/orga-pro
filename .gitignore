@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+out/
+
+*.exe
+*.asar
+*.log
+
+.cache/
+.vscode/
