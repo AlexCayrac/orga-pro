@@ -1,47 +1,67 @@
-# Dependencies
+# Node modules
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
 
-# Build / distribution
+# Build output
 dist/
-build/
 out/
-
-# Electron build artifacts
-*.exe
+build/
+.release/
 *.asar
+
+# Electron
+*.exe
+*.dll
+*.pdb
+*.app
 *.dmg
-*.AppImage
-*.snap
 *.deb
+*.snap
+*.AppImage
 
 # Logs
 logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+*.log.*
+pids/
+*.pid
+*.seed
+*.pid.lock
 
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Cache
+# Runtime data
+tmp/
+temp/
 .cache/
-.parcel-cache/
-.eslintcache
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
 
 # OS files
 .DS_Store
 Thumbs.db
-
-# IDE / Editor
-.vscode/
-.idea/
+desktop.ini
+*.bak
 *.swp
-*.swo
-
-# Temporary files
-tmp/
-temp/
 *.tmp
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Misc
+*.tsbuildinfo
+*.eslintcache
+.vite/
