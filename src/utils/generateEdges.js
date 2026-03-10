@@ -2,8 +2,8 @@
 function generateEdges(nodes = []) {
   if (!Array.isArray(nodes)) return [];
   return nodes
-    .filter(n => n.parentId)
-    .map(n => ({ from: n.parentId, to: n.id }));
+    .filter(n => n.managerId)
+    .map(n => ({ from: n.managerId, to: n.id }));
 }
 
 module.exports = { generateEdges };

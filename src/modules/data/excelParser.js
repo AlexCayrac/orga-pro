@@ -91,7 +91,7 @@ class ExcelParser {
     }
 
     const contact = {
-      id: excelId ? `contact_${excelId}` : (matricule ? `contact_${matricule}` : `contact_${timestamp}_${index}`),
+      id: excelId || matricule || `${timestamp}_${index}`,
       firstName: firstName || '',
       lastName: lastName || '',
       age: parsedAge,
@@ -102,6 +102,7 @@ class ExcelParser {
       position: position || '',
       department: getColumnValue(row, 'Département', 'department', 'Department', 'Dept', 'dept'),
       managerId: managerId && managerId !== '' ? managerId : null,
+      parentId: managerId && managerId !== '' ? managerId : null,
       excelId: excelId || null,
       matricule: matricule || null,
       photoPath: photoPath || null,
@@ -143,6 +144,7 @@ class ExcelParser {
       });
 
     // Map managerId strings later in the flow (the importer will still map when running in main)
+    console.log("Parsed contacts:", contacts.slice(0,5));
     return contacts;
   }
 }
